@@ -16,4 +16,13 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::apiresource('/book', 'BooksController');
+
+Route::group(['prefix' => '/books'], function () {
+Route::get('', 'BookController@index');
+Route::get('/{id}', 'BookController@show')->name('books.show');
+Route::post('/{id}', 'BookController@update');
+Route::post('', 'BookController@store');
+Route::delete('/{id}', 'BookController@destroy');
+});
+
+Route::get('/author/{id}', 'BookController@showAuthorBooks')->name('author.show');
